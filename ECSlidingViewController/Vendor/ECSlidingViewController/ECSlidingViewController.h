@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIImage+ImageWithUIView.h"
 
 /** Notification that gets posted when the underRight view will appear */
 extern NSString *const ECSlidingViewUnderRightWillAppear;
@@ -62,10 +61,7 @@ typedef enum {
 } ECResetStrategy;
 
 /** ECSlidingViewController is a view controller container that presents its child view controllers in two layers. The top layer can be panned to reveal the layers below it. */
-@interface ECSlidingViewController : UIViewController{
-  CGPoint startTouchPosition;
-  BOOL topViewHasFocus;
-}
+@interface ECSlidingViewController : UIViewController
 
 /** Returns the view controller that will be visible when the top view is slide to the right.
  

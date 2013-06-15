@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 EdgeCase. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "ECSlidingViewController.h"
 
 NSString *const ECSlidingViewUnderRightWillAppear    = @"ECSlidingViewUnderRightWillAppear";
@@ -110,8 +111,8 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
   
   [_topViewController.view setAutoresizingMask:self.autoResizeToFillScreen];
   [_topViewController.view setFrame:topViewFrame];
-  _topViewController.view.layer.shadowOffset = CGSizeZero;
-  _topViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
+  //_topViewController.view.layer.shadowOffset = CGSizeZero;
+  //_topViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
   
   [self.view addSubview:_topViewController.view];
 }
@@ -190,15 +191,16 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-  self.topView.layer.shadowOffset = CGSizeZero;
-  self.topView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
+  //self.topView.layer.shadowOffset = CGSizeZero;
+  //self.topView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
   [self adjustLayout];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-  self.topView.layer.shadowPath = nil;
-  self.topView.layer.shouldRasterize = YES;
+  [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+  //self.topView.layer.shadowPath = nil;
+  //self.topView.layer.shouldRasterize = YES;
   
   if(![self topViewHasFocus]){
     [self removeTopViewSnapshot];
@@ -209,8 +211,9 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-  self.topView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
-  self.topView.layer.shouldRasterize = NO;
+  [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+  //self.topView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.layer.bounds].CGPath;
+  //self.topView.layer.shouldRasterize = NO;
   
   if(![self topViewHasFocus]){
     [self addTopViewSnapshot];
@@ -461,7 +464,8 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 {
   self.topViewSnapshot.frame = self.topView.bounds; // update snapshot bounds
   if (!self.topViewSnapshot.superview && !self.shouldAllowUserInteractionsWhenAnchored) {
-    topViewSnapshot.layer.contents = (id)[UIImage imageWithUIView:self.topView].CGImage;
+    //topViewSnapshot.layer.contents = (id)[UIImage imageWithUIView:self.topView].CGImage;
+    topViewSnapshot.opaque = YES;
     
     if (self.shouldAddPanGestureRecognizerToTopViewSnapshot && (_resetStrategy & ECPanning)) {
       if (!_topViewSnapshotPanGesture) {
